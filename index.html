@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic document metadata -->
+  <meta charset="UTF-8" />
+  <title>Exhibit-Flow</title>
+  <!-- Link to external CSS stylesheet for styling -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<!-- Body with login-mode class for login-specific styling -->
+<body class="login-mode">
+  <!-- Main container for the login interface -->
+  <div class="login-container">
+    <!-- Application title/branding -->
+    <h1>Exhibit-Flow</h1>
+    <!-- Application tagline/description -->
+    <p class="tagline">The better flow for curators</p>
+
+    <!-- Username input field -->
+    <input type="text" id="username" placeholder="Username" />
+    <!-- Password input field (hidden text) -->
+    <input type="password" id="password" placeholder="Password" />
+
+    <!-- Container for login and registration buttons -->
+    <div class="login-buttons">
+      <!-- Login button for existing users -->
+      <button id="login-btn">Log In</button>
+      <!-- Registration button for new users -->
+      <button id="register-btn">Register</button>
+    </div>
+
+    <!-- Message area for login feedback (success/error messages) -->
+    <p id="login-msg"></p>
+  </div>
+
+  <!-- Link to external JavaScript file for login functionality -->
+  <script src="renderer.js"></script>
+</body>
+</html>

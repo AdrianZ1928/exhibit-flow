@@ -1,0 +1,1462 @@
+/* ===================================
+   BASE STYLES & RESET
+   =================================== */
+
+/* CSS Reset - ensures consistent styling across browsers */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Include padding/border in element width/height calculations */
+}
+
+/* Base body styling - system fonts for native look */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial;
+  background: #f8f9fa; /* Light gray background */
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent scrolling on main body */
+}
+
+/* ===================================
+   BODY MODE CLASSES
+   Different layouts for different pages
+   =================================== */
+
+/* Login page - centered layout */
+body.login-mode {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(145deg, #e0e0e0, #ffffff); /* Subtle gradient background */
+}
+
+/* Dashboard/Editor pages - full layout */
+body.dashboard-mode {
+  display: block;
+}
+
+/* ===================================
+   LOGIN PAGE STYLES
+   =================================== */
+
+/* Main login card container */
+.login-container {
+  background: white;
+  padding: 40px;
+  border-radius: 16px; /* Rounded corners for modern look */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  text-align: center;
+  width: 300px; /* Fixed width for consistency */
+}
+
+/* App title styling */
+.login-container h1 {
+  font-size: 28px;
+  margin-bottom: 5px;
+  color: #007aff; /* Brand blue color */
+}
+
+/* Subtitle under main title */
+.tagline {
+  font-size: 14px;
+  color: #666; /* Muted gray text */
+  margin-bottom: 20px;
+}
+
+/* Input field styling */
+.login-container input {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+/* Button styling for login/register */
+.login-container button {
+  width: 48%; /* Two buttons side by side */
+  padding: 10px;
+  margin: 4px;
+  border: none;
+  border-radius: 8px;
+  background-color: #007aff; /* Brand blue */
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Button hover effect */
+.login-container button:hover {
+  background-color: #005fcc; /* Darker blue on hover */
+}
+
+/* Message area for login feedback */
+#login-msg {
+  margin-top: 10px;
+  color: #d33; /* Red for error messages by default */
+}
+
+/* ===================================
+   MAIN DASHBOARD LAYOUT
+   Fixed positioning for full-screen app
+   =================================== */
+
+/* Main container - fills entire viewport */
+.main-dashboard {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  position: fixed; /* Fixed positioning for app-like behavior */
+  top: 0;
+  left: 0;
+}
+
+/* Top header bar */
+.main-header {
+  background: white;
+  padding: 20px;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between; /* Space between title and user info */
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for separation */
+  z-index: 100; /* Ensure header stays on top */
+  flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+/* App title in header */
+.main-header h1 {
+  color: #007aff;
+  font-size: 28px;
+  margin: 0;
+}
+
+/* User info section in header */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Space between username and logout button */
+}
+
+/* Logout button styling */
+.btn-logout {
+  background: #dc3545; /* Bootstrap red */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease; /* Smooth color transition */
+}
+
+.btn-logout:hover {
+  background: #c82333; /* Darker red on hover */
+}
+
+/* Main content area - flexible layout */
+.dashboard-main {
+  display: flex;
+  flex: 1; /* Takes remaining space after header */
+  overflow: hidden; /* Prevent overflow */
+  min-height: 0; /* Allow flex children to shrink */
+}
+
+/* ===================================
+   SIDEBAR WITH FILTERS
+   Fixed width sidebar for filtering options
+   =================================== */
+
+/* Sidebar container */
+.dashboard-sidebar {
+  width: 280px; /* Fixed width */
+  flex-shrink: 0; /* Don't shrink this sidebar */
+  background: white;
+  border-right: 1px solid #e9ecef;
+  padding: 20px;
+  overflow-y: auto; /* Allow scrolling if content overflows */
+}
+
+/* Filter section title */
+.filters-section h3 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+/* Individual filter group container */
+.filter-group {
+  margin-bottom: 25px; /* Space between filter groups */
+}
+
+/* Filter group labels */
+.filter-group label {
+  display: block;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+/* Checkbox container - vertical layout */
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Space between checkboxes */
+}
+
+/* Individual checkbox labels */
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between checkbox and text */
+  font-weight: normal;
+  cursor: pointer;
+}
+
+/* Checkbox sizing */
+.checkbox-group input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
+
+/* Select dropdowns and date inputs */
+.filter-group select,
+.filter-group input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+/* Filter action buttons */
+.btn-apply-filters,
+.btn-clear-filters {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 8px;
+  transition: background 0.3s ease;
+}
+
+/* Apply filters button - blue */
+.btn-apply-filters {
+  background: #007aff;
+  color: white;
+}
+
+.btn-apply-filters:hover {
+  background: #0056b3;
+}
+
+/* Clear filters button - gray */
+.btn-clear-filters {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-clear-filters:hover {
+  background: #5a6268;
+}
+
+/* ===================================
+   EXHIBITIONS DISPLAY AREA
+   Main content area with responsive grid
+   =================================== */
+
+/* Main exhibitions container */
+.exhibitions-area {
+  flex: 1; /* Takes remaining space after sidebar */
+  padding: 20px;
+  overflow-y: auto; /* Scrollable content */
+  min-width: 0; /* Allow shrinking */
+}
+
+/* Header for exhibitions section */
+.exhibitions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.exhibitions-header h2 {
+  color: #333;
+  font-size: 24px;
+  margin: 0;
+}
+
+/* Create new exhibition button */
+.btn-create-exhibit {
+  background: #007aff;
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between icon and text */
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3); /* Blue shadow */
+}
+
+/* Hover effect with lift animation */
+.btn-create-exhibit:hover {
+  background: #0056b3;
+  transform: translateY(-2px); /* Lift effect */
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4); /* Enhanced shadow */
+}
+
+/* Plus icon styling */
+.plus-icon {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* ===================================
+   EXHIBITIONS GRID LAYOUT
+   Responsive card grid system
+   =================================== */
+
+/* CSS Grid for responsive exhibition cards */
+.exhibitions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); /* Responsive columns */
+  gap: 20px; /* Space between cards */
+}
+
+/* Individual exhibition card */
+.exhibition-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Soft shadow */
+  border: 2px solid transparent; /* Invisible border for hover effect */
+  cursor: pointer;
+  transition: all 0.3s ease; /* Smooth animations */
+}
+
+/* Hover effect for exhibition cards */
+.exhibition-card:hover {
+  border-color: #007aff; /* Blue border on hover */
+  transform: translateY(-5px); /* Lift effect */
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15); /* Enhanced shadow */
+}
+
+/* Special styling for "create new" card */
+.exhibition-card.create-card {
+  background: #f8f9fa; /* Light gray background */
+  border: 2px dashed #007aff; /* Dashed border */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #007aff;
+  font-weight: bold;
+  min-height: 200px; /* Ensure consistent height */
+}
+
+/* Large plus icon for create card */
+.create-icon {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+/* Exhibition card content */
+.exhibition-info h3 {
+  color: #333;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+/* Exhibition metadata line */
+.exhibition-meta {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between priority indicator and text */
+}
+
+/* Status badge styling */
+.exhibition-status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px; /* Pill shape */
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 10px 0;
+}
+
+/* Status color variations */
+.status-planning {
+  background: #fff3cd; /* Light yellow */
+  color: #856404; /* Dark yellow text */
+}
+
+.status-active {
+  background: #d4edda; /* Light green */
+  color: #155724; /* Dark green text */
+}
+
+.status-completed {
+  background: #d1ecf1; /* Light blue */
+  color: #0c5460; /* Dark blue text */
+}
+
+/* Priority indicator dots */
+.priority-indicator {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%; /* Perfect circle */
+  margin-right: 8px;
+}
+
+/* Priority color coding */
+.priority-high { background: #dc3545; } /* Red */
+.priority-medium { background: #ffc107; } /* Yellow */
+.priority-low { background: #28a745; } /* Green */
+
+/* Statistics section at bottom of cards */
+.exhibition-stats {
+  display: flex;
+  justify-content: space-between; /* Even spacing */
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e9ecef; /* Separator line */
+}
+
+/* Individual stat item */
+.stat {
+  text-align: center;
+}
+
+/* Large number display */
+.stat-number {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  color: #007aff; /* Brand blue */
+}
+
+/* Small label under number */
+.stat-label {
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+}
+
+/* ===================================
+   EMPTY STATE STYLING
+   =================================== */
+
+/* Message shown when no exhibitions exist */
+.empty-state {
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+  padding: 40px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 2px dashed #ddd; /* Dashed border for empty state */
+  grid-column: 1 / -1; /* Span all grid columns */
+}
+
+/* ===================================
+   EXHIBIT EDITOR LAYOUT
+   Full-screen editor interface
+   =================================== */
+
+/* Main editor container */
+.exhibit-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  position: fixed; /* Full-screen app behavior */
+  top: 0;
+  left: 0;
+}
+
+/* Editor header bar */
+.editor-header {
+  background: white;
+  padding: 15px 20px;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 100;
+  flex-shrink: 0; /* Don't shrink header */
+}
+
+/* Left side of header */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Back to dashboard button */
+.btn-back {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.btn-back:hover {
+  background: #5a6268;
+}
+
+/* Editable exhibition title */
+.exhibit-title-section h1 {
+  color: #333;
+  font-size: 24px;
+  margin: 0;
+  border: 2px solid transparent; /* Invisible border for focus state */
+  padding: 4px 8px;
+  border-radius: 4px;
+  min-width: 200px;
+}
+
+/* Focus state for editable title */
+.exhibit-title-section h1:focus {
+  outline: none;
+  border-color: #007aff; /* Blue border when editing */
+  background: #f8f9fa; /* Light background when editing */
+}
+
+/* Exhibition metadata */
+.exhibit-meta {
+  color: #666;
+  font-size: 14px;
+  margin: 4px 0 0 8px;
+}
+
+/* Right side of header */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Save button */
+.btn-save {
+  background: #28a745; /* Green for save action */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.btn-save:hover {
+  background: #218838;
+}
+
+/* Status dropdown */
+.exhibit-status select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* ===================================
+   EDITOR LAYOUT SYSTEM
+   Sidebar navigation + content area
+   =================================== */
+
+/* Main editor layout container */
+.editor-main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Left navigation sidebar */
+.editor-sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  background: white;
+  border-right: 1px solid #e9ecef;
+}
+
+/* Navigation menu container */
+.editor-nav {
+  padding: 20px 0;
+}
+
+/* Individual navigation items */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Space between icon and text */
+  width: 100%;
+  padding: 12px 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: left;
+  transition: background 0.3s ease;
+  color: #666;
+}
+
+/* Hover state for nav items */
+.nav-item:hover {
+  background: #f8f9fa;
+}
+
+/* Active nav item styling */
+.nav-item.active {
+  background: #007aff;
+  color: white;
+}
+
+/* Navigation icons */
+.nav-icon {
+  font-size: 16px;
+}
+
+/* Main content area */
+.editor-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto; /* Scrollable content */
+  min-width: 0;
+}
+
+/* Tab content containers */
+.editor-tab {
+  display: none; /* Hidden by default */
+}
+
+.editor-tab.active {
+  display: block; /* Show active tab */
+}
+
+/* Tab headers */
+.tab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e9ecef; /* Separator line */
+}
+
+.tab-header h2 {
+  color: #333;
+  font-size: 22px;
+  margin: 0;
+}
+
+/* ===================================
+   OVERVIEW TAB LAYOUT
+   Grid layout for overview content
+   =================================== */
+
+/* Overview grid - main card spans multiple rows */
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px; /* Main content + sidebar */
+  gap: 20px;
+  grid-template-rows: auto auto;
+}
+
+/* First card spans multiple rows */
+.overview-grid .overview-card:first-child {
+  grid-row: 1 / 3;
+}
+
+/* Overview cards */
+.overview-card {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.overview-card h3 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+/* Statistics list layout */
+.stats-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Individual stat items */
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0; /* Subtle separator */
+}
+
+.stat-label {
+  color: #666;
+  font-size: 14px;
+}
+
+.stat-value-editor {
+  color: #007aff;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* Activity list with scroll */
+.activity-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* ===================================
+   FORM STYLING SYSTEM
+   Consistent form layouts throughout app
+   =================================== */
+
+/* Form containers */
+.form-container {
+  background: #f8f9fa; /* Light background to distinguish forms */
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 2px solid #e9ecef;
+}
+
+.form-container h3 {
+  margin-top: 0;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* Form row - side-by-side fields */
+.form-row {
+  display: flex;
+  gap: 15px; /* Space between fields */
+  margin-bottom: 15px;
+}
+
+/* Individual form groups */
+.form-group {
+  flex: 1; /* Equal width in rows */
+}
+
+/* Form labels */
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #555;
+  font-size: 14px;
+}
+
+/* Form inputs - consistent styling */
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+/* Focus states for form inputs */
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #007aff; /* Blue border on focus */
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* Blue glow */
+}
+
+/* Form action buttons container */
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* ===================================
+   BUTTON SYSTEM
+   Consistent button styling with variants
+   =================================== */
+
+/* Primary button - blue */
+.btn-primary {
+  background: #007aff;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+  transform: translateY(-1px); /* Subtle lift effect */
+}
+
+/* Secondary button - gray */
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+}
+
+/* Danger button - red */
+.btn-danger {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+  background: #c82333;
+}
+
+/* ===================================
+   ARTWORKS GRID SYSTEM
+   =================================== */
+
+/* Artworks display grid */
+.artworks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive columns */
+  gap: 20px;
+}
+
+/* Individual artwork cards */
+.artwork-card {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 15px;
+  transition: all 0.3s ease;
+}
+
+.artwork-card:hover {
+  border-color: #007aff; /* Blue border on hover */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Artwork information */
+.artwork-info h4 {
+  color: #007aff;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.artwork-info p {
+  margin: 4px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.artwork-description {
+  margin-top: 10px;
+  font-style: italic;
+  color: #888;
+}
+
+/* Artwork action buttons */
+.artwork-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.artwork-actions button {
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+/* ===================================
+   FLOOR PLAN SYSTEM
+   Drag and drop layout interface
+   =================================== */
+
+/* Main floor plan workspace */
+.floor-plan-workspace {
+  display: flex;
+  gap: 20px;
+  height: 500px; /* Fixed height for workspace */
+}
+
+/* Artwork palette sidebar */
+.artwork-palette {
+  width: 250px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+  overflow-y: auto; /* Scrollable if many artworks */
+  flex-shrink: 0;
+}
+
+.artwork-palette h3 {
+  margin-top: 0;
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+/* Palette items container */
+.palette-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Draggable artwork items */
+.artwork-item {
+  background: white;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  cursor: grab; /* Grab cursor indicates draggable */
+  transition: all 0.3s ease;
+  text-align: center;
+  font-size: 12px;
+}
+
+.artwork-item:hover {
+  border-color: #007aff;
+  transform: scale(1.02); /* Slight scale on hover */
+}
+
+.artwork-item:active {
+  cursor: grabbing; /* Grabbing cursor when dragging */
+}
+
+/* Main floor plan canvas */
+.floor-plan-canvas {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Floor plan container with drop zone */
+.floor-plan-container {
+  background: #f9f9f9;
+  border: 2px dashed #ddd; /* Dashed border indicates drop zone */
+  border-radius: 8px;
+  height: 100%;
+  position: relative; /* For absolute positioning of placed items */
+  overflow: hidden;
+}
+
+/* Placed artwork elements */
+.artwork-placement {
+  position: absolute; /* Positioned within floor plan */
+  background: #007aff;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: move; /* Move cursor indicates draggable */
+  min-width: 100px;
+  font-size: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.artwork-placement:hover {
+  background: #0056b3;
+}
+
+/* Placement text elements */
+.placement-title {
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.placement-artist {
+  font-size: 10px;
+  opacity: 0.9;
+}
+
+/* Remove placement button */
+.remove-placement {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%; /* Circular button */
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-placement:hover {
+  background: #c82333;
+}
+
+/* ===================================
+   TASKS MANAGEMENT SYSTEM
+   =================================== */
+
+/* Tasks list container */
+.tasks-list {
+  max-height: 600px;
+  overflow-y: auto; /* Scrollable task list */
+}
+
+/* Individual task items */
+.task-item {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  transition: all 0.3s ease;
+}
+
+.task-item:hover {
+  border-color: #007aff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Completed task styling */
+.task-item.completed {
+  opacity: 0.7; /* Faded appearance */
+  background: #f8f9fa;
+}
+
+/* Strikethrough for completed tasks */
+.task-item.completed .task-info h4,
+.task-item.completed .task-info p {
+  text-decoration: line-through;
+}
+
+/* Task information section */
+.task-info {
+  flex: 1;
+}
+
+.task-info h4 {
+  margin: 0 0 8px 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.task-info p {
+  margin: 4px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Task deadline styling */
+.task-deadline {
+  font-weight: bold;
+}
+
+.task-deadline.overdue {
+  color: #dc3545; /* Red for overdue tasks */
+}
+
+.task-description {
+  font-style: italic;
+  margin-top: 8px;
+}
+
+/* Task action buttons */
+.task-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-left: 15px;
+}
+
+.task-actions button {
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+/* Toggle completion button */
+.btn-toggle {
+  background: #28a745; /* Green for mark complete */
+  color: white;
+}
+
+.btn-toggle:hover {
+  background: #218838;
+}
+
+/* Toggle button for completed tasks */
+.task-item.completed .btn-toggle {
+  background: #ffc107; /* Yellow for mark incomplete */
+  color: #333;
+}
+
+.task-item.completed .btn-toggle:hover {
+ background: #e0a800;
+}
+
+/* ===================================
+  SETTINGS SECTION
+  =================================== */
+
+/* Settings grid layout */
+.settings-grid {
+ display: grid;
+ grid-template-columns: 1fr 300px; /* Main settings + danger zone */
+ gap: 20px;
+}
+
+/* Individual settings sections */
+.settings-section {
+ background: white;
+ border: 1px solid #e9ecef;
+ border-radius: 8px;
+ padding: 20px;
+}
+
+.settings-section h3 {
+ color: #333;
+ margin-bottom: 15px;
+ font-size: 18px;
+}
+
+/* Warning text for dangerous actions */
+.warning-text {
+ color: #dc3545; /* Red warning text */
+ font-size: 12px;
+ margin-top: 8px;
+ font-style: italic;
+}
+
+/* ===================================
+  PRIORITY INDICATORS
+  Color coding system for priorities
+  =================================== */
+
+.priority-high { color: #dc3545; font-weight: bold; } /* Red - urgent */
+.priority-medium { color: #ffc107; font-weight: bold; } /* Yellow - moderate */
+.priority-low { color: #28a745; font-weight: bold; } /* Green - low priority */
+
+/* ===================================
+  RESPONSIVE DESIGN
+  Mobile and tablet adaptations
+  =================================== */
+
+@media (max-width: 768px) {
+ /* Mobile layout adjustments for dashboard */
+ .dashboard-main {
+   flex-direction: column; /* Stack sidebar below content */
+ }
+ 
+ .dashboard-sidebar {
+   width: 100%; /* Full width on mobile */
+   order: 2; /* Move sidebar below content */
+ }
+ 
+ .exhibitions-area {
+   order: 1; /* Content area first */
+ }
+ 
+ /* Single column grid on mobile */
+ .exhibitions-grid {
+   grid-template-columns: 1fr;
+ }
+ 
+ /* Mobile editor layout */
+ .editor-main {
+   flex-direction: column;
+ }
+ 
+ .editor-sidebar {
+   width: 100%;
+ }
+ 
+ /* Horizontal navigation on mobile */
+ .editor-nav {
+   display: flex;
+   overflow-x: auto; /* Horizontal scroll for nav items */
+ }
+ 
+ .nav-item {
+   min-width: 120px; /* Minimum width for nav items */
+ }
+ 
+ /* Single column overview on mobile */
+ .overview-grid {
+   grid-template-columns: 1fr;
+ }
+ 
+ /* Vertical floor plan layout on mobile */
+ .floor-plan-workspace {
+   flex-direction: column;
+   height: auto; /* Auto height on mobile */
+ }
+ 
+ .artwork-palette {
+   width: 100%;
+   max-height: 200px; /* Limit palette height on mobile */
+ }
+ 
+ /* Single column settings on mobile */
+ .settings-grid {
+   grid-template-columns: 1fr;
+ }
+}
+
+/* ===================================
+  ANIMATIONS AND TRANSITIONS
+  =================================== */
+
+/* Slide in animation for tab content */
+@keyframes slideIn {
+ from {
+   opacity: 0;
+   transform: translateY(-10px); /* Start slightly above */
+ }
+ to {
+   opacity: 1;
+   transform: translateY(0); /* End in normal position */
+ }
+}
+
+/* Apply animation to active tabs */
+.editor-tab.active {
+ animation: slideIn 0.3s ease;
+}
+
+/* ===================================
+  ACCESSIBILITY FOCUS STATES
+  Enhanced focus indicators for keyboard navigation
+  =================================== */
+
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+ outline: 2px solid #007aff; /* Blue outline for focus */
+ outline-offset: 2px; /* Space between element and outline */
+}
+
+/* ===================================
+  MODAL SYSTEM
+  Overlay dialogs for forms and confirmations
+  =================================== */
+
+/* Modal overlay - covers entire screen */
+.modal {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: rgba(0, 0, 0, 0.5); /* Semi-transparent dark overlay */
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ z-index: 1000; /* High z-index to appear above everything */
+}
+
+/* Modal content container */
+.modal-content {
+ background: white;
+ border-radius: 12px;
+ width: 90%;
+ max-width: 500px; /* Maximum width for readability */
+ box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Strong shadow for depth */
+ animation: modalSlideIn 0.3s ease; /* Entrance animation */
+}
+
+/* Modal entrance animation */
+@keyframes modalSlideIn {
+ from {
+   opacity: 0;
+   transform: translateY(-50px); /* Start above final position */
+ }
+ to {
+   opacity: 1;
+   transform: translateY(0); /* End in center */
+ }
+}
+
+/* Modal header section */
+.modal-header {
+ padding: 20px 25px 15px;
+ border-bottom: 1px solid #e9ecef; /* Separator line */
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+}
+
+.modal-header h3 {
+ margin: 0;
+ color: #333;
+ font-size: 20px;
+}
+
+/* Modal close button */
+.modal-close {
+ background: none;
+ border: none;
+ font-size: 24px;
+ color: #666;
+ cursor: pointer;
+ padding: 0;
+ width: 30px;
+ height: 30px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ border-radius: 50%; /* Circular close button */
+ transition: background 0.3s ease;
+}
+
+.modal-close:hover {
+ background: #f8f9fa; /* Light background on hover */
+ color: #333;
+}
+
+/* Modal body content */
+.modal-body {
+ padding: 20px 25px;
+}
+
+/* Modal footer with action buttons */
+.modal-footer {
+ padding: 15px 25px 20px;
+ display: flex;
+ gap: 10px;
+ justify-content: flex-end; /* Right-align buttons */
+}
+
+/* ===================================
+  ENHANCED ARTWORK PLACEMENT STYLING
+  Improved visual design for floor plan placements
+  =================================== */
+
+.artwork-placement {
+ background: rgba(0, 123, 255, 0.9); /* Semi-transparent blue */
+ color: white;
+ padding: 8px 12px;
+ border-radius: 6px;
+ font-size: 12px;
+ line-height: 1.3;
+ min-width: 120px;
+ max-width: 180px; /* Prevent overly wide placements */
+ box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+ border: 2px solid #fff; /* White border for definition */
+ user-select: none; /* Prevent text selection during drag */
+ transition: all 0.2s ease;
+}
+
+/* Enhanced hover effect for placements */
+.artwork-placement:hover {
+ transform: scale(1.05); /* Slight enlargement */
+ box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+}
+
+/* Placement title with text overflow handling */
+.placement-title {
+ font-weight: bold;
+ margin-bottom: 2px;
+ white-space: nowrap; /* Single line */
+ overflow: hidden;
+ text-overflow: ellipsis; /* Show ... for long titles */
+}
+
+/* Placement artist with text overflow handling */
+.placement-artist {
+ font-size: 10px;
+ opacity: 0.9;
+ white-space: nowrap;
+ overflow: hidden;
+ text-overflow: ellipsis;
+}
+
+/* Enhanced remove button styling */
+.remove-placement {
+ position: absolute;
+ top: -8px;
+ right: -8px;
+ background: #dc3545;
+ color: white;
+ border: none;
+ border-radius: 50%;
+ width: 20px;
+ height: 20px;
+ font-size: 12px;
+ cursor: pointer;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ line-height: 1; /* Ensure proper centering */
+}
+
+.remove-placement:hover {
+ background: #c82333;
+}
+
+/* Final floor plan container styling */
+.floor-plan-container {
+ position: relative;
+ background: #f9f9f9;
+ border: 1px solid #ddd;
+ border-radius: 4px;
+}

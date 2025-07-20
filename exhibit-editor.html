@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic document metadata -->
+  <meta charset="UTF-8">
+  <title>Exhibit Editor - Exhibit-Flow</title>
+  <!-- Link to external CSS stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<!-- Body with dashboard-mode class for consistent styling -->
+<body class="dashboard-mode">
+  <!-- Main container for the exhibition editor interface -->
+  <div class="exhibit-editor">
+    <!-- Top header section with navigation and exhibition info -->
+    <header class="editor-header">
+      <!-- Left side: back button and exhibition title -->
+      <div class="header-left">
+        <!-- Button to return to dashboard -->
+        <button class="btn-back" onclick="goBackToDashboard()">← Back to Dashboard</button>
+        <!-- Editable exhibition title and metadata -->
+        <div class="exhibit-title-section">
+          <!-- Editable exhibition title -->
+          <h1 id="exhibit-title" contenteditable="true">New Exhibition</h1>
+          <!-- Exhibition metadata display -->
+          <p class="exhibit-meta" id="exhibit-meta">Click to edit title</p>
+        </div>
+      </div>
+      <!-- Right side: save button and status selector -->
+      <div class="header-right">
+        <!-- Save button to persist changes -->
+        <button class="btn-save" onclick="saveExhibit()">Save</button>
+        <!-- Exhibition status dropdown -->
+        <div class="exhibit-status">
+          <select id="exhibit-status">
+            <option value="planning">Planning</option>
+            <option value="active">Active</option>
+            <option value="completed">Completed</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main editor content area -->
+    <div class="editor-main">
+      <!-- Left sidebar with navigation tabs -->
+      <div class="editor-sidebar">
+        <nav class="editor-nav">
+          <!-- Overview tab button (default active) -->
+          <button class="nav-item active" onclick="showEditorTab('overview')">
+            <span class="nav-icon">📋</span>
+            Overview
+          </button>
+          <!-- Artworks management tab -->
+          <button class="nav-item" onclick="showEditorTab('artworks')">
+            <span class="nav-icon">🎨</span>
+            Artworks
+          </button>
+          <!-- Floor plan design tab -->
+          <button class="nav-item" onclick="showEditorTab('floorplan')">
+            <span class="nav-icon">📐</span>
+            Floor Plan
+          </button>
+          <!-- Tasks management tab -->
+          <button class="nav-item" onclick="showEditorTab('tasks')">
+            <span class="nav-icon">✓</span>
+            Tasks
+          </button>
+          <!-- Exhibition settings tab -->
+          <button class="nav-item" onclick="showEditorTab('settings')">
+            <span class="nav-icon">⚙️</span>
+            Settings
+          </button>
+        </nav>
+      </div>
+
+      <!-- Main content area that changes based on selected tab -->
+      <div class="editor-content">
+        <!-- Overview Tab - Exhibition details and quick stats -->
+        <div id="overview" class="editor-tab active">
+          <div class="tab-header">
+            <h2>Exhibition Overview</h2>
+          </div>
+          
+          <!-- Grid layout for overview content -->
+          <div class="overview-grid">
+            <!-- Exhibition details form card -->
+            <div class="overview-card">
+              <h3>Exhibition Details</h3>
+              <!-- Description textarea -->
+              <div class="form-group">
+                <label>Description</label>
+                <textarea id="exhibit-description" rows="4" placeholder="Enter exhibition description..."></textarea>
+              </div>
+              <!-- Date range inputs (start and end dates) -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Start Date</label>
+                  <input type="date" id="exhibit-start-date">
+                </div>
+                <div class="form-group">
+                  <label>End Date</label>
+                  <input type="date" id="exhibit-end-date">
+                </div>
+              </div>
+              <!-- Priority and venue inputs -->
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Priority</label>
+                  <select id="exhibit-priority">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Venue</label>
+                  <input type="text" id="exhibit-venue" placeholder="Enter venue name">
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick statistics display card -->
+            <div class="overview-card">
+              <h3>Quick Stats</h3>
+              <div class="stats-list">
+                <!-- Total artworks count -->
+                <div class="stat-item">
+                  <span class="stat-label">Artworks:</span>
+                  <span class="stat-value-editor" id="stat-artworks">0</span>
+                </div>
+                <!-- Placed artworks count -->
+                <div class="stat-item">
+                  <span class="stat-label">Placed:</span>
+                  <span class="stat-value-editor" id="stat-placed">0</span>
+                </div>
+                <!-- Total tasks count -->
+                <div class="stat-item">
+                  <span class="stat-label">Tasks:</span>
+                  <span class="stat-value-editor" id="stat-tasks">0</span>
+                </div>
+                <!-- Completed tasks count -->
+                <div class="stat-item">
+                  <span class="stat-label">Completed:</span>
+                  <span class="stat-value-editor" id="stat-completed-tasks">0</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Artworks Tab - Manage exhibition artworks -->
+        <div id="artworks" class="editor-tab">
+          <!-- Tab header with add artwork button -->
+          <div class="tab-header">
+            <h2>Exhibition Artworks</h2>
+            <button class="btn-primary" onclick="showAddArtworkForm()">+ Add Artwork</button>
+          </div>
+
+          <!-- Add Artwork Form (initially hidden) -->
+          <div id="artwork-form" class="form-container" style="display: none;">
+            <h3>Add Artwork to Exhibition</h3>
+            <!-- Basic artwork information (title and artist) -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="artwork-title">Title *</label>
+                <input type="text" id="artwork-title" placeholder="Enter artwork title" required>
+              </div>
+              <div class="form-group">
+                <label for="artwork-artist">Artist *</label>
+                <input type="text" id="artwork-artist" placeholder="Enter artist name" required>
+              </div>
+            </div>
+            
+            <!-- Creation year and medium -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="artwork-year">Year</label>
+                <input type="number" id="artwork-year" placeholder="2024">
+              </div>
+              <div class="form-group">
+                <label for="artwork-medium">Medium</label>
+                <input type="text" id="artwork-medium" placeholder="Oil on canvas">
+              </div>
+            </div>
+
+            <!-- Physical properties (dimensions and value) -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="artwork-dimensions">Dimensions (cm)</label>
+                <input type="text" id="artwork-dimensions" placeholder="100 x 80">
+              </div>
+              <div class="form-group">
+                <label for="artwork-value">Estimated Value</label>
+                <input type="text" id="artwork-value" placeholder="$10,000">
+              </div>
+            </div>
+
+            <!-- Artwork description -->
+            <div class="form-group">
+              <label for="artwork-description">Description</label>
+              <textarea id="artwork-description" rows="3" placeholder="Enter artwork description"></textarea>
+            </div>
+
+            <!-- Form action buttons -->
+            <div class="form-actions">
+              <button class="btn-primary" onclick="addArtworkToExhibit()">Add Artwork</button>
+              <button class="btn-secondary" onclick="cancelAddArtwork()">Cancel</button>
+            </div>
+          </div>
+
+          <!-- Grid container for displaying artwork cards -->
+          <div class="artworks-grid" id="artworks-grid">
+            <!-- Artwork cards will be added here dynamically -->
+          </div>
+        </div>
+
+        <!-- Floor Plan Tab - Visual layout design -->
+        <div id="floorplan" class="editor-tab">
+          <!-- Tab header with floor plan tools -->
+          <div class="tab-header">
+            <h2>Floor Plan</h2>
+            <div style="display: flex; gap: 10px;">
+              <!-- Floor plan management buttons -->
+              <button class="btn-secondary" onclick="uploadBlueprint()">Upload Blueprint</button>
+              <button class="btn-secondary" onclick="clearFloorPlan()">Clear Plan</button>
+              <button class="btn-primary" onclick="exportFloorPlan()">Export Plan</button>
+            </div>
+          </div>
+
+          <!-- Floor plan workspace layout -->
+          <div class="floor-plan-workspace">
+            <!-- Left palette with available artworks for placement -->
+            <div class="artwork-palette">
+              <h3>Available Artworks</h3>
+              <div id="available-artworks" class="palette-items">
+                <!-- Draggable artwork items will be populated here -->
+              </div>
+            </div>
+
+            <!-- Main floor plan canvas area -->
+            <div class="floor-plan-canvas">
+              <div class="floor-plan-container" id="floor-plan">
+                <!-- Gallery Floor Plan Blueprint (detailed SVG) -->
+                <svg width="100%" height="100%" viewBox="0 0 800 500" style="background: #f9f9f9;">
+                  <!-- Outer building walls -->
+                  <rect x="50" y="50" width="700" height="400" fill="none" stroke="#333" stroke-width="3"/>
+                  
+                  <!-- Main entrance -->
+                  <rect x="370" y="47" width="60" height="6" fill="#333"/>
+                  <text x="400" y="40" text-anchor="middle" font-size="12" fill="#666">ENTRANCE</text>
+                  
+                  <!-- Gallery Room 1 (Main Exhibition Space) -->
+                  <rect x="70" y="70" width="320" height="200" fill="none" stroke="#666" stroke-width="2"/>
+                  <text x="230" y="175" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">MAIN GALLERY</text>
+                  <text x="230" y="190" text-anchor="middle" font-size="10" fill="#666">24' × 16'</text>
+                  
+                  <!-- Gallery Room 2 (Side Exhibition) -->
+                  <rect x="410" y="70" width="200" height="150" fill="none" stroke="#666" stroke-width="2"/>
+                  <text x="510" y="145" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">SIDE GALLERY</text>
+                  <text x="510" y="160" text-anchor="middle" font-size="10" fill="#666">16' × 12'</text>
+                  
+                  <!-- Gallery Room 3 (Small Display) -->
+                  <rect x="630" y="70" width="100" height="150" fill="none" stroke="#666" stroke-width="2"/>
+                  <text x="680" y="140" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">ALCOVE</text>
+                  <text x="680" y="155" text-anchor="middle" font-size="10" fill="#666">8' × 12'</text>
+                  
+                  <!-- Reception/Info Desk -->
+                  <rect x="420" y="240" width="80" height="40" fill="#e9ecef" stroke="#666" stroke-width="1"/>
+                  <text x="460" y="265" text-anchor="middle" font-size="10" fill="#333">RECEPTION</text>
+                  
+                  <!-- Storage Room -->
+                  <rect x="520" y="240" width="90" height="80" fill="#f8f9fa" stroke="#666" stroke-width="1"/>
+                  <text x="565" y="280" text-anchor="middle" font-size="10" fill="#333">STORAGE</text>
+                  
+                  <!-- Restrooms -->
+                  <rect x="630" y="240" width="45" height="80" fill="#f8f9fa" stroke="#666" stroke-width="1"/>
+                  <text x="652" y="280" text-anchor="middle" font-size="9" fill="#333">WC</text>
+                  
+                  <!-- Office -->
+                  <rect x="690" y="240" width="60" height="80" fill="#f8f9fa" stroke="#666" stroke-width="1"/>
+                  <text x="720" y="280" text-anchor="middle" font-size="10" fill="#333">OFFICE</text>
+                  
+                  <!-- Central Corridor (dashed outline for circulation) -->
+                  <rect x="70" y="290" width="320" height="60" fill="none" stroke="#ccc" stroke-width="1" stroke-dasharray="5,5"/>
+                  <text x="230" y="325" text-anchor="middle" font-size="10" fill="#666">CIRCULATION</text>
+                  
+                  <!-- Loading Bay -->
+                  <rect x="70" y="370" width="100" height="60" fill="#f0f0f0" stroke="#666" stroke-width="1"/>
+                  <text x="120" y="405" text-anchor="middle" font-size="10" fill="#333">LOADING</text>
+                  
+                  <!-- Café Area -->
+                  <rect x="190" y="370" width="120" height="60" fill="#fff3cd" stroke="#666" stroke-width="1"/>
+                  <text x="250" y="405" text-anchor="middle" font-size="10" fill="#333">CAFÉ</text>
+                  
+                  <!-- Gift Shop -->
+                  <rect x="330" y="370" width="80" height="60" fill="#d4edda" stroke="#666" stroke-width="1"/>
+                  <text x="370" y="405" text-anchor="middle" font-size="10" fill="#333">SHOP</text>
+                  
+                  <!-- Interior doors between rooms -->
+                  <line x1="390" y1="120" x2="410" y2="120" stroke="#333" stroke-width="2"/>
+                  <line x1="390" y1="180" x2="410" y2="180" stroke="#333" stroke-width="2"/>
+                  <line x1="610" y1="145" x2="630" y2="145" stroke="#333" stroke-width="2"/>
+                  <line x1="390" y1="260" x2="420" y2="260" stroke="#333" stroke-width="2"/>
+                  
+                  <!-- SVG definitions for dimension arrows -->
+                  <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+                    </marker>
+                  </defs>
+                  
+                  <!-- Dimension lines with arrows -->
+                  <!-- Horizontal dimension (width) -->
+                  <line x1="50" y1="460" x2="750" y2="460" stroke="#666" stroke-width="1" marker-start="url(#arrowhead)" marker-end="url(#arrowhead)"/>
+                  <text x="400" y="475" text-anchor="middle" font-size="10" fill="#666">58 feet</text>
+                  
+                  <!-- Vertical dimension (height) -->
+                  <line x1="30" y1="50" x2="30" y2="450" stroke="#666" stroke-width="1" marker-start="url(#arrowhead)" marker-end="url(#arrowhead)"/>
+                  <text x="20" y="250" text-anchor="middle" font-size="10" fill="#666" transform="rotate(-90, 20, 250)">33 feet</text>
+                  
+                  <!-- Legend explaining floor plan symbols -->
+                  <g transform="translate(60, 380)">
+                    <rect x="0" y="0" width="120" height="60" fill="white" stroke="#ccc" stroke-width="1" rx="4"/>
+                    <text x="60" y="15" text-anchor="middle" font-size="10" fill="#333" font-weight="bold">LEGEND</text>
+                    
+                    <!-- Placed artwork indicator -->
+                    <rect x="5" y="20" width="12" height="8" fill="#007aff"/>
+                    <text x="20" y="27" font-size="8" fill="#666">Placed Artwork</text>
+                    
+                    <!-- Wall indicator -->
+                    <line x1="5" y1="35" x2="17" y2="35" stroke="#333" stroke-width="2"/>
+                    <text x="20" y="38" font-size="8" fill="#666">Walls</text>
+                    
+                    <!-- Circulation path indicator -->
+                    <line x1="5" y1="45" x2="17" y2="45" stroke="#666" stroke-width="1" stroke-dasharray="3,3"/>
+                    <text x="20" y="48" font-size="8" fill="#666">Circulation</text>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tasks Tab - Project task management -->
+        <div id="tasks" class="editor-tab">
+          <!-- Tab header with add task button -->
+          <div class="tab-header">
+            <h2>Exhibition Tasks</h2>
+            <button class="btn-primary" onclick="showAddTaskForm()">+ Add Task</button>
+          </div>
+
+          <!-- Add Task Form (initially hidden) -->
+          <div id="task-form" class="form-container" style="display: none;">
+            <h3>Add Task</h3>
+            <!-- Task title and priority -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="task-title">Task Title *</label>
+                <input type="text" id="task-title" placeholder="Enter task title" required>
+              </div>
+              <div class="form-group">
+                <label for="task-priority">Priority</label>
+                <select id="task-priority">
+                  <option value="low">Low</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="high">High</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Task deadline and category -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="task-deadline">Deadline</label>
+                <input type="date" id="task-deadline">
+              </div>
+              <div class="form-group">
+                <label for="task-category">Category</label>
+                <select id="task-category">
+                  <option value="setup">Setup</option>
+                  <option value="artwork">Artwork</option>
+                  <option value="logistics">Logistics</option>
+                  <option value="documentation">Documentation</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Task description -->
+            <div class="form-group">
+              <label for="task-description">Description</label>
+              <textarea id="task-description" rows="3" placeholder="Enter task description"></textarea>
+            </div>
+
+            <!-- Form action buttons -->
+            <div class="form-actions">
+              <button class="btn-primary" onclick="addTaskToExhibit()">Add Task</button>
+              <button class="btn-secondary" onclick="cancelAddTask()">Cancel</button>
+            </div>
+          </div>
+
+          <!-- Container for displaying task list -->
+          <div class="tasks-list" id="tasks-list">
+            <!-- Task items will be added here dynamically -->
+          </div>
+        </div>
+
+        <!-- Settings Tab - Exhibition configuration and management -->
+        <div id="settings" class="editor-tab">
+          <div class="tab-header">
+            <h2>Exhibition Settings</h2>
+          </div>
+
+          <!-- Settings organized in grid layout -->
+          <div class="settings-grid">
+            <!-- General exhibition information section -->
+            <div class="settings-section">
+              <h3>Exhibition Information</h3>
+              <!-- Private curator notes -->
+              <div class="form-group">
+                <label>Curator Notes</label>
+                <textarea id="curator-notes" rows="4" placeholder="Private notes for this exhibition..."></textarea>
+              </div>
+              <!-- Exhibition budget tracking -->
+              <div class="form-group">
+                <label>Budget</label>
+                <input type="text" id="exhibit-budget" placeholder="$0.00">
+              </div>
+            </div>
+
+            <!-- Dangerous actions section -->
+            <div class="settings-section">
+              <h3>Danger Zone</h3>
+              <!-- Delete exhibition button -->
+              <button class="btn-danger" onclick="deleteExhibition()">Delete Exhibition</button>
+              <!-- Warning message -->
+              <p class="warning-text">This action cannot be undone.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Link to external JavaScript file for editor functionality -->
+  <script src="exhibit-editor.js"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic document metadata -->
+  <meta charset="UTF-8">
+  <title>Exhibit-Flow Dashboard</title>
+  <!-- Link to external CSS stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<!-- Body with dashboard-mode class for styling -->
+<body class="dashboard-mode">
+  <!-- Main container for the entire dashboard -->
+  <div class="main-dashboard">
+    <!-- Top header section with title and user info -->
+    <header class="main-header">
+      <h1>Exhibit-Flow</h1>
+      <!-- User information and logout section -->
+      <div class="user-info">
+        <!-- Placeholder for logged in user's name -->
+        <span id="logged-user">Welcome back!</span>
+        <!-- Logout button -->
+        <button id="logout-btn" class="btn-logout">Logout</button>
+      </div>
+    </header>
+
+    <!-- Main dashboard content area -->
+    <div class="dashboard-main">
+      <!-- Left sidebar containing filters and sorting options -->
+      <div class="dashboard-sidebar">
+        <div class="filters-section">
+          <h3>Filters</h3>
+          <!-- Status filter group with checkboxes -->
+          <div class="filter-group">
+            <label>Status</label>
+            <div class="checkbox-group">
+              <!-- Individual status filter checkboxes -->
+              <label><input type="checkbox" id="filter-planning"> Planning</label>
+              <label><input type="checkbox" id="filter-active"> Active</label>
+              <label><input type="checkbox" id="filter-completed"> Completed</label>
+            </div>
+          </div>
+          
+          <!-- Priority filter group with checkboxes -->
+          <div class="filter-group">
+            <label>Priority</label>
+            <div class="checkbox-group">
+              <!-- Individual priority filter checkboxes -->
+              <label><input type="checkbox" id="filter-high"> High</label>
+              <label><input type="checkbox" id="filter-medium"> Medium</label>
+              <label><input type="checkbox" id="filter-low"> Low</label>
+            </div>
+          </div>
+
+          <!-- Sorting dropdown menu -->
+          <div class="filter-group">
+            <label>Sort By</label>
+            <select id="sort-by">
+              <!-- Sorting options for exhibitions -->
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+              <option value="deadline">Deadline</option>
+              <option value="name">Name</option>
+              <option value="priority">Priority</option>
+            </select>
+          </div>
+
+          <!-- Button to clear all applied filters -->
+          <button class="btn-clear-filters" onclick="clearFilters()">Clear All</button>
+        </div>
+      </div>
+
+      <!-- Main content area for displaying exhibitions -->
+      <div class="exhibitions-area">
+        <!-- Header for exhibitions section -->
+        <div class="exhibitions-header">
+          <h2>My Exhibitions</h2>
+        </div>
+
+        <!-- Grid container where exhibition cards will be displayed -->
+        <div class="exhibitions-grid" id="exhibitions-grid">
+          <!-- Exhibition cards will be dynamically added here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal dialog for creating new exhibitions (initially hidden) -->
+  <div id="create-exhibition-modal" class="modal" style="display: none;">
+    <!-- Modal content container -->
+    <div class="modal-content">
+      <!-- Modal header with title and close button -->
+      <div class="modal-header">
+        <h3>Create New Exhibition</h3>
+        <!-- Close button (X) -->
+        <button class="modal-close" onclick="closeCreateModal()">&times;</button>
+      </div>
+      <!-- Modal body containing form fields -->
+      <div class="modal-body">
+        <!-- Exhibition name input field (required) -->
+        <div class="form-group">
+          <label for="new-exhibition-name">Exhibition Name *</label>
+          <input type="text" id="new-exhibition-name" placeholder="Enter exhibition name..." required>
+        </div>
+        <!-- Venue input field (optional) -->
+        <div class="form-group">
+          <label for="new-exhibition-venue">Venue (optional)</label>
+          <input type="text" id="new-exhibition-venue" placeholder="Enter venue name...">
+        </div>
+      </div>
+      <!-- Modal footer with action buttons -->
+      <div class="modal-footer">
+        <!-- Cancel button -->
+        <button class="btn-secondary" onclick="closeCreateModal()">Cancel</button>
+        <!-- Create exhibition button -->
+        <button class="btn-primary" onclick="confirmCreateExhibition()">Create Exhibition</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Link to external JavaScript file for functionality -->
+  <script src="dashboard.js"></script>
+</body>
+</html>
